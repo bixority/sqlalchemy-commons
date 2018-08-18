@@ -19,7 +19,7 @@ with open(os.path.join(current_file_dir, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='sqlalchemy_commons',
-    version='0.0.1',
+    version='0.0.2',
     python_requires='~=3.7',
     packages=[
         'sqlalchemy_commons',
@@ -39,7 +39,7 @@ setup(
     ],
     keywords='sqlalchemy orm common models',
     install_requires=install_reqs,
-    author='Olegs Korsaks',
+    author='Oleg Korsak',
     author_email='kamikaze.is.waiting.you@gmail.com',
     description='SQLAlchemy common models',
     test_suite='tests'

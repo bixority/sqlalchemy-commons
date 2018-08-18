@@ -32,7 +32,7 @@ class UserStatus(enum.IntEnum):
 
 class UserRole(enum.IntEnum):
     SUPER_USER = 1
-    CLIENT = 100
+    REGULAR = 100
 
 
 class Model:
@@ -42,18 +42,29 @@ class Model:
 
 
 class Group(Model):
+    __tablename__ = 'groups'
+
     name = Column(String(255))
 
 
 class User(Model):
+    __tablename__ = 'users'
+
     deleted_at = Column(DateTime)
 
-    group_id = Column(Integer, ForeignKey('bx_group.id'), nullable=False)
+    group_id = Column(Integer, ForeignKey('groups.id'), nullable=False)
     group = relationship('Group', backref=backref('users'), foreign_keys=[group_id])
 
     email = Column(String(255))
-    first_name = Column(String(255))
-    last_name = Column(String(255))
     status = Column(Enum(UserStatus), default=UserStatus.PENDING, nullable=False)
     is_active = Column(BOOLEAN, server_default='f', default=False, nullable=False)
-    role = Column(Enum(UserRole), server_default='CLIENT', default=UserRole.CLIENT, nullable=False)
+    role = Column(Enum(UserRole), server_default='CLIENT', default=UserRole.REGULAR, nullable=False)
+
+
+class UserProfile(Model):
+    __tablename__ = 'user_profiles'
+
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True, nullable=False)
+    user = relationship('User', backref=backref('profile', uselist=False))
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
